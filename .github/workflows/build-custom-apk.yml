@@ -1,0 +1,45 @@
+name: Build custom APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Create signing key
+        run: |
+          keytool -genkeypair -v -keystore android/app/personal.jks \
+            -alias personal -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass anchorpersonal -keypass anchorpersonal \
+            -dname "CN=Anchor Personal"
+          cat > android/key.properties <<KP
+          storePassword=anchorpersonal
+          keyPassword=anchorpersonal
+          keyAlias=personal
+          storeFile=./personal.jks
+          KP
+
+      - run: flutter build apk --release
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: anchor-personal-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
