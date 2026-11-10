@@ -60,9 +60,13 @@ class _AnchorAppState extends ConsumerState<AnchorApp>
     final router = ref.watch(goRouterProvider);
     final themeMode = ref.watch(themeModeControllerProvider);
     final density = ref.watch(displayDensityControllerProvider);
-    final (font, textSize) = ref.watch(
+    final (font, textSize, lineHeight) = ref.watch(
       editorPreferencesControllerProvider.select(
-        (editor) => (editor.noteFont, editor.noteTextSize),
+        (editor) => (
+          editor.noteFont,
+          editor.noteTextSize,
+          editor.noteLineHeight,
+        ),
       ),
     );
 
@@ -76,8 +80,8 @@ class _AnchorAppState extends ConsumerState<AnchorApp>
 
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appName,
-      theme: AppTheme.light(density, font, textSize),
-      darkTheme: AppTheme.dark(density, font, textSize),
+      theme: AppTheme.light(density, font, textSize, lineHeight),
+      darkTheme: AppTheme.dark(density, font, textSize, lineHeight),
       themeMode: themeMode,
       themeAnimationStyle: isSystemMotionReduced
           ? AnimationStyle.noAnimation

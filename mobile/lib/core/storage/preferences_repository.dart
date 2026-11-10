@@ -95,6 +95,18 @@ class PreferencesRepository {
     await _storage.write(key: StorageKeys.noteTextSize, value: textSize);
   }
 
+  Future<double?> getNoteLineHeight() async {
+    final value = await _storage.read(key: StorageKeys.noteLineHeight);
+    return value == null ? null : double.tryParse(value);
+  }
+
+  Future<void> setNoteLineHeight(double value) async {
+    await _storage.write(
+      key: StorageKeys.noteLineHeight,
+      value: value.toString(),
+    );
+  }
+
   Future<String?> getThemeMode() => _storage.read(key: StorageKeys.themeMode);
 
   Future<void> setThemeMode(String mode) async {

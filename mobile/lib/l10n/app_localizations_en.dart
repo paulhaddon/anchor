@@ -609,6 +609,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Pack light. The hills are steep, and the trams fill up by nine.';
 
   @override
+  String get settingsLineHeight => 'Line height';
+
+  @override
+  String get settingsLineHeightLine1 => 'Line 1';
+
+  @override
+  String get settingsLineHeightLine2 => 'Line 2';
+
+  @override
   String get settingsAccount => 'Account';
 
   @override

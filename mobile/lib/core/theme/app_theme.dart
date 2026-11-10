@@ -10,7 +10,7 @@ import 'tokens/anchor_tokens.dart';
 
 abstract final class AppTheme {
   static final Map<
-    (Brightness, DisplayDensity, NoteFont, NoteTextSize),
+    (Brightness, DisplayDensity, NoteFont, NoteTextSize, double?),
     ThemeData
   >
   _cache = {};
@@ -19,29 +19,34 @@ abstract final class AppTheme {
     DisplayDensity density = DisplayDensity.standard,
     NoteFont font = NoteFont.sans,
     NoteTextSize textSize = NoteTextSize.standard,
+    double? lineHeight,
   ]) => _cache.putIfAbsent((
     Brightness.light,
     density,
     font,
     textSize,
-  ), () => _build(Brightness.light, density, font, textSize));
+    lineHeight,
+  ), () => _build(Brightness.light, density, font, textSize, lineHeight));
 
   static ThemeData dark([
     DisplayDensity density = DisplayDensity.standard,
     NoteFont font = NoteFont.sans,
     NoteTextSize textSize = NoteTextSize.standard,
+    double? lineHeight,
   ]) => _cache.putIfAbsent((
     Brightness.dark,
     density,
     font,
     textSize,
-  ), () => _build(Brightness.dark, density, font, textSize));
+    lineHeight,
+  ), () => _build(Brightness.dark, density, font, textSize, lineHeight));
 
   static ThemeData _build(
     Brightness brightness,
     DisplayDensity density,
     NoteFont font,
     NoteTextSize textSize,
+    double? lineHeight,
   ) {
     final spacing = AnchorDensity.of(density);
     final isDark = brightness == Brightness.dark;
@@ -161,7 +166,7 @@ abstract final class AppTheme {
         NoteTypography(
           font: font,
           textSize: textSize,
-          lineHeight: spacing.noteLineHeight,
+          lineHeight: lineHeight ?? spacing.noteLineHeight,
         ),
         colors,
       ],

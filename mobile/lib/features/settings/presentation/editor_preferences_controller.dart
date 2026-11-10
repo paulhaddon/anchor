@@ -30,4 +30,11 @@ class EditorPreferencesController extends _$EditorPreferencesController {
     final repository = ref.read(preferencesRepositoryProvider);
     await repository.setNoteTextSize(textSize.name);
   }
+
+  Future<void> setNoteLineHeight(double value) async {
+    final lineHeight = NoteTypography.snapLineHeight(value);
+    state = state.copyWith(noteLineHeight: lineHeight);
+    final repository = ref.read(preferencesRepositoryProvider);
+    await repository.setNoteLineHeight(lineHeight);
+  }
 }

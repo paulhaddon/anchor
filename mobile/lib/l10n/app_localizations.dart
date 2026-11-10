@@ -1132,6 +1132,24 @@ abstract class AppLocalizations {
   /// **'Pack light. The hills are steep, and the trams fill up by nine.'**
   String get settingsPreviewText;
 
+  /// Section label in Settings for the slider that sets the space between lines of text in notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Line height'**
+  String get settingsLineHeight;
+
+  /// First of two sample lines under the line height slider, so the gap between lines can be seen.
+  ///
+  /// In en, this message translates to:
+  /// **'Line 1'**
+  String get settingsLineHeightLine1;
+
+  /// Second of two sample lines under the line height slider, so the gap between lines can be seen.
+  ///
+  /// In en, this message translates to:
+  /// **'Line 2'**
+  String get settingsLineHeightLine2;
+
   /// Section label in Settings for password and sign out.
   ///
   /// In en, this message translates to:

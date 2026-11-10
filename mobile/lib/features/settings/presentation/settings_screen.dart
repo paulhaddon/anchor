@@ -75,6 +75,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               gap,
               const _EditorSection(),
               gap,
+              const _LineHeightSection(),
+              gap,
               _AccountSection(user: user),
               gap,
               const _HelpSection(),
@@ -246,7 +248,8 @@ class _EditorSection extends ConsumerWidget {
             typography: NoteTypography(
               font: editor.noteFont,
               textSize: editor.noteTextSize,
-              lineHeight: context.density.noteLineHeight,
+              lineHeight:
+                  editor.noteLineHeight ?? context.density.noteLineHeight,
             ),
           ),
           StackedListTile(
@@ -282,6 +285,117 @@ class _EditorSection extends ConsumerWidget {
             subtitle: l10n.settingsMoveCheckedHelp,
             value: editor.sortChecklistItems,
             onChanged: controller.setSortChecklistItems,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A slider for the line height of notes, and two lines of sample text that
+/// follow it.
+class _LineHeightSection extends ConsumerStatefulWidget {
+  const _LineHeightSection();
+
+  @override
+  ConsumerState<_LineHeightSection> createState() => _LineHeightSectionState();
+}
+
+class _LineHeightSectionState extends ConsumerState<_LineHeightSection> {
+  /// The value under the thumb while it is dragged. The app's theme, and so
+  /// every note, changes only when the thumb is let go.
+  double? _dragging;
+
+  @override
+  Widget build(BuildContext context) {
+    final editor = ref.watch(editorPreferencesControllerProvider);
+    final colors = context.anchor;
+    final l10n = context.l10n;
+    final saved = NoteTypography.snapLineHeight(
+      editor.noteLineHeight ?? context.density.noteLineHeight,
+    );
+    final value = _dragging ?? saved;
+    final typography = NoteTypography(
+      font: editor.noteFont,
+      textSize: editor.noteTextSize,
+      lineHeight: value,
+    );
+    final steps =
+        ((NoteTypography.maxLineHeight - NoteTypography.minLineHeight) /
+                NoteTypography.lineHeightStep)
+            .round();
+    return Section(
+      label: l10n.settingsLineHeight,
+      child: GroupedList(
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(16, context.density.space16, 16, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  value.toStringAsFixed(2),
+                  textAlign: TextAlign.center,
+                  style: AppTypography.row.tabular.copyWith(
+                    color: colors.appText,
+                  ),
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 4,
+                    activeTrackColor: colors.accentStrong,
+                    inactiveTrackColor: colors.appText.withValues(alpha: 0.12),
+                    thumbColor: colors.accentStrong,
+                    overlayColor: colors.accentStrong.withValues(alpha: 0.12),
+                    activeTickMarkColor: const Color(0x00000000),
+                    inactiveTickMarkColor: const Color(0x00000000),
+                  ),
+                  child: Slider(
+                    value: value,
+                    min: NoteTypography.minLineHeight,
+                    max: NoteTypography.maxLineHeight,
+                    divisions: steps,
+                    semanticFormatterCallback: (v) => v.toStringAsFixed(2),
+                    onChanged: (v) {
+                      final next = NoteTypography.snapLineHeight(v);
+                      if (next == _dragging) return;
+                      Haptics.selection();
+                      setState(() => _dragging = next);
+                    },
+                    onChangeEnd: (v) {
+                      setState(() => _dragging = null);
+                      ref
+                          .read(editorPreferencesControllerProvider.notifier)
+                          .setNoteLineHeight(v);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ExcludeSemantics(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                16,
+                4,
+                16,
+                context.density.space16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    l10n.settingsLineHeightLine1,
+                    style: typography.body.copyWith(color: colors.appText),
+                  ),
+                  Text(
+                    l10n.settingsLineHeightLine2,
+                    style: typography.body.copyWith(color: colors.appText),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

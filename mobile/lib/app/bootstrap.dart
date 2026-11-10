@@ -87,6 +87,7 @@ Future<AppBootstrap> initializeApp({
 
   final savedFont = await preferences.getNoteFont();
   final savedTextSize = await preferences.getNoteTextSize();
+  final savedLineHeight = await preferences.getNoteLineHeight();
   final editorPreferences = EditorPreferences(
     sortChecklistItems: await preferences.getSortChecklistItems(),
     noteFont: NoteFont.values.firstWhere(
@@ -97,6 +98,9 @@ Future<AppBootstrap> initializeApp({
       (textSize) => textSize.name == savedTextSize,
       orElse: () => NoteTextSize.standard,
     ),
+    noteLineHeight: savedLineHeight == null
+        ? null
+        : NoteTypography.snapLineHeight(savedLineHeight),
   );
 
   String? userId;

@@ -840,6 +840,18 @@
   "@settingsPreviewText": {
     "description": "Text of a sample note that previews the font and text size."
   },
+  "settingsLineHeight": "Line height",
+  "@settingsLineHeight": {
+    "description": "Section label in Settings for the slider that sets the space between lines of text in notes."
+  },
+  "settingsLineHeightLine1": "Line 1",
+  "@settingsLineHeightLine1": {
+    "description": "First of two sample lines under the line height slider, so the gap between lines can be seen."
+  },
+  "settingsLineHeightLine2": "Line 2",
+  "@settingsLineHeightLine2": {
+    "description": "Second of two sample lines under the line height slider, so the gap between lines can be seen."
+  },
   "settingsAccount": "Account",
   "@settingsAccount": {
     "description": "Section label in Settings for password and sign out."

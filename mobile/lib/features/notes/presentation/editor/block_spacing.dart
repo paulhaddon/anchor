@@ -20,7 +20,7 @@ const double quoteBarWidth = 3; // off-scale: quote block
 /// The space over and under each kind of block, and inside quotes and code.
 class NoteBlockSpacing {
   NoteBlockSpacing(NoteTypography typography)
-    : paragraph = VerticalSpacing(0, typography.bodySize * 0.6),
+    : paragraph = VerticalSpacing(0, typography.bodySize * 0.35),
       _headings = [
         for (final (level, above, below) in const [
           (1, 1.45, 0.45),
