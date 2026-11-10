@@ -54,10 +54,9 @@ class NoteTypography extends ThemeExtension<NoteTypography> {
     required this.lineHeight,
   });
 
-  /// What the line height setting allows, as a multiple of the font size. Below
-  /// the least, one line's descenders touch the next line's ascenders.
-  static const double minLineHeight = 1.2;
-  static const double maxLineHeight = 2.0;
+  /// What the line height setting allows, as a multiple of the font size.
+  static const double minLineHeight = 1.0;
+  static const double maxLineHeight = 1.7;
   static const double lineHeightStep = 0.05;
 
   /// Where the setting starts until it is moved.
