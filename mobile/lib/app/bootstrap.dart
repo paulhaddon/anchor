@@ -98,9 +98,9 @@ Future<AppBootstrap> initializeApp({
       (textSize) => textSize.name == savedTextSize,
       orElse: () => NoteTextSize.standard,
     ),
-    noteLineHeight: savedLineHeight == null
-        ? null
-        : NoteTypography.snapLineHeight(savedLineHeight),
+    noteLineHeight: NoteTypography.snapLineHeight(
+      savedLineHeight ?? NoteTypography.defaultLineHeight,
+    ),
   );
 
   String? userId;

@@ -60,6 +60,9 @@ class NoteTypography extends ThemeExtension<NoteTypography> {
   static const double maxLineHeight = 2.0;
   static const double lineHeightStep = 0.05;
 
+  /// Where the setting starts until it is moved.
+  static const double defaultLineHeight = 1.4;
+
   /// [value] kept inside the allowed range and on a step.
   static double snapLineHeight(double value) {
     final steps = (value.clamp(minLineHeight, maxLineHeight) / lineHeightStep)
