@@ -7,6 +7,7 @@ import {
   AppearanceSection,
   EditorSection,
   ImportExportSection,
+  LineHeightSection,
   PasswordSection,
   ProfileSection,
   Row,
@@ -23,6 +24,7 @@ export default function SettingsPage() {
           <ProfileSection />
           <AppearanceSection />
           <EditorSection />
+          <LineHeightSection />
           <ApiTokenSection />
           <ImportExportSection />
           <PasswordSection />

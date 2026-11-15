@@ -33,7 +33,7 @@
   padding: --spacing(1) 0 0;
   font-family: var(--font-sans);
   font-size: var(--text-body);
-  line-height: 1.7;
+  line-height: var(--note-line-height, 1.4);
   color: var(--foreground);
   overflow-y: visible;
   counter-reset: none;
@@ -59,7 +59,7 @@
 
 /* Text */
 .anchor-quill .ql-editor p {
-  margin: 0 0 0.6em;
+  margin: 0 0 0.35em;
 }
 .anchor-quill .ql-editor > :first-child {
   margin-top: 0;
@@ -149,7 +149,7 @@
   color: var(--foreground);
   font-family: var(--font-mono);
   font-size: var(--text-code);
-  line-height: 1.7;
+  line-height: var(--note-line-height, 1.4);
   overflow-x: auto;
   white-space: pre;
   scrollbar-width: thin;

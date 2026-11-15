@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import { type ReactNode, useEffect, useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LineHeightApplier } from "@/features/preferences";
 import { trackInputModality } from "@/lib/input-modality";
 
 interface ProvidersProps {
@@ -39,6 +40,7 @@ export function Providers({ children }: ProvidersProps) {
         enableSystem
         disableTransitionOnChange
       >
+        <LineHeightApplier />
         <TooltipProvider>{children}</TooltipProvider>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />

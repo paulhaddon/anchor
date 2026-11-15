@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { clampLineHeight, LINE_HEIGHT_DEFAULT } from "./line-height";
 
 export type ViewMode = "masonry" | "grid" | "list";
 export type SortBy = "updatedAt" | "createdAt" | "title";
@@ -18,6 +19,8 @@ interface NotesPreferences {
 
 interface EditorPreferences {
   sortChecklistItems: boolean;
+  /** A multiple of the font size. */
+  lineHeight: number;
   foldedChecklistNoteIds: string[];
 }
 
@@ -54,6 +57,7 @@ const defaultNotesPreferences: NotesPreferences = {
 
 const defaultEditorPreferences: EditorPreferences = {
   sortChecklistItems: true,
+  lineHeight: LINE_HEIGHT_DEFAULT,
   foldedChecklistNoteIds: [],
 };
 
@@ -126,7 +130,13 @@ export const usePreferencesStore = create<PreferencesState>()(
           ...current,
           ui: { ...current.ui, ...saved.ui },
           notes: { ...current.notes, ...saved.notes },
-          editor: { ...current.editor, ...saved.editor },
+          editor: {
+            ...current.editor,
+            ...saved.editor,
+            lineHeight: clampLineHeight(
+              saved.editor?.lineHeight ?? current.editor.lineHeight,
+            ),
+          },
         };
       },
     },
