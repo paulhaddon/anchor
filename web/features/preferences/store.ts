@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { clampLineHeight, LINE_HEIGHT_DEFAULT } from "./line-height";
+import { clampMargin, type NoteMargin } from "./margins";
 
 export type ViewMode = "masonry" | "grid" | "list";
 export type SortBy = "updatedAt" | "createdAt" | "title";
@@ -21,6 +22,11 @@ interface EditorPreferences {
   sortChecklistItems: boolean;
   /** A multiple of the font size. */
   lineHeight: number;
+  /** Shows the formatting toolbar above the note. */
+  showToolbar: boolean;
+  /** Gap between the window edge and the note, in pixels. `null` is automatic. */
+  marginLeft: NoteMargin;
+  marginRight: NoteMargin;
   foldedChecklistNoteIds: string[];
 }
 
@@ -58,6 +64,9 @@ const defaultNotesPreferences: NotesPreferences = {
 const defaultEditorPreferences: EditorPreferences = {
   sortChecklistItems: true,
   lineHeight: LINE_HEIGHT_DEFAULT,
+  showToolbar: true,
+  marginLeft: null,
+  marginRight: null,
   foldedChecklistNoteIds: [],
 };
 
@@ -136,6 +145,9 @@ export const usePreferencesStore = create<PreferencesState>()(
             lineHeight: clampLineHeight(
               saved.editor?.lineHeight ?? current.editor.lineHeight,
             ),
+            showToolbar: saved.editor?.showToolbar !== false,
+            marginLeft: clampMargin(saved.editor?.marginLeft),
+            marginRight: clampMargin(saved.editor?.marginRight),
           },
         };
       },

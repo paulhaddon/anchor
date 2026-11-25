@@ -100,6 +100,8 @@ export function NoteEditorContent(props: NoteEditorContentProps) {
   );
   const edited = props.updatedAt ? formatCardDate(props.updatedAt) : null;
   const people = props.sharedBy ? [] : props.sharedWith;
+  const showMeta =
+    !props.isNew && !!(edited || props.sharedBy || people.length > 0);
   const [hasFiles, setHasFiles] = React.useState(false);
   const startersRoving = useRovingFocus<HTMLDivElement>();
   const titleLine = useTitleLine(
@@ -161,7 +163,7 @@ export function NoteEditorContent(props: NoteEditorContentProps) {
           onPaste={titleLine.onPaste}
         />
       )}
-      {!props.isNew && (edited || props.sharedBy || people.length > 0) && (
+      {showMeta && (
         <div className="meta">
           {edited && (
             <span>
@@ -209,9 +211,10 @@ export function NoteEditorContent(props: NoteEditorContentProps) {
               </span>
             </>
           )}
+          <TagRow {...props} />
         </div>
       )}
-      <TagRow {...props} />
+      {!showMeta && <TagRow {...props} />}
       <AttachmentStrip
         ref={strip}
         noteId={props.noteId}

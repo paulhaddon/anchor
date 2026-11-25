@@ -34,6 +34,22 @@ export function EditorSection() {
           }}
         />
       </Row>
+      <Row>
+        <RowText
+          title={
+            <label htmlFor="show-toolbar">Show the formatting toolbar</label>
+          }
+          text="The row of formatting buttons in the note editor. On Android, the toolbar above the keyboard is not affected."
+        />
+        <Switch
+          id="show-toolbar"
+          checked={editor.showToolbar}
+          onCheckedChange={(on) => {
+            setEditorPreference("showToolbar", on);
+            setSaveStatus("saved");
+          }}
+        />
+      </Row>
     </Section>
   );
 }

@@ -218,6 +218,9 @@ export const RichTextEditor = forwardRef<
         bounds.height,
       );
     }, []);
+    const showToolbar = usePreferencesStore(
+      (state) => state.editor.showToolbar,
+    );
     const sortChecklistItems = usePreferencesStore(
       (state) => state.editor.sortChecklistItems,
     );
@@ -861,7 +864,7 @@ export const RichTextEditor = forwardRef<
 
     return (
       <div ref={rootRef} className="rte">
-        {!readOnly && (
+        {!readOnly && showToolbar && (
           <QuillToolbar
             getQuill={getQuill}
             isFocused={isFocused}
